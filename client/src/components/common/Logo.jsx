@@ -6,7 +6,7 @@ const Logo = () => {
 
   return (
     <Typography fontWeight="700" fontSize="1.7rem">
-      <Link to="/">
+      <Link to="/" textDecoration="none">
         Kev<span style={{ color: theme.palette.primary.main }}>Flix</span>
       </Link>
     </Typography>
