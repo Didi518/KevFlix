@@ -1,7 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
-const baseURL = 'https://kevflix-one.vercel.app/api/v1/';
+const baseURL = 'https://kevflix-api.vercel.app/api/v1/';
 
 const publicClient = axios.create({
   baseURL,
