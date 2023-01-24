@@ -61,7 +61,7 @@ const PersonDetail = () => {
               >
                 <Stack spacing={2}>
                   <Typography variant="h5" fontWeight="700">
-                    {`${person.name} (${person.birthday.split('-')[0]})`}
+                    {`${person.name} (${person.birthday.split('-')[0]}`}
                     {person.deathday && ` - (${person.deathday.split('-')[0]}`}
                     {')'}
                   </Typography>
