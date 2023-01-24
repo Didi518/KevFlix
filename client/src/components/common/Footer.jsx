@@ -16,7 +16,9 @@ const Footer = () => {
           sx={{ height: 'max-content' }}
         >
           <Logo />
-          <Box>
+          <Box
+            sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}
+          >
             {menuConfigs.main.map((item, index) => (
               <Button
                 key={index}
