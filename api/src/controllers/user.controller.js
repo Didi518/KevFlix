@@ -6,7 +6,8 @@ const signup = async (req, res) => {
   try {
     const { username, password, displayName } = req.body;
     const checkUser = await userModel.findOne({ username });
-    if (checkUser) return responseHandler.badrequest(res, 'nom déjà utilisé');
+    if (checkUser)
+      return responseHandler.badrequest(res, 'Pseudonyme déjà utilisé');
     const user = new userModel();
     user.displayName = displayName;
     user.username = username;
@@ -22,7 +23,7 @@ const signup = async (req, res) => {
       ...user._doc,
       id: user.id,
     });
-  } catch (error) {
+  } catch {
     responseHandler.error(res);
   }
 };
@@ -36,7 +37,7 @@ const signin = async (req, res) => {
     if (!user)
       return responseHandler.badrequest(res, 'Utilisateur introuvable');
     if (!user.validPassword(password))
-      return responseHandler.badrequest(res, 'Mot de passe incorrect');
+      return responseHandler.badRequest(res, 'Mot de passe incorrect');
     const token = jsonwebtoken.sign(
       { data: user.id },
       process.env.TOKEN_SECRET,
@@ -49,7 +50,7 @@ const signin = async (req, res) => {
       ...user._doc,
       id: user.id,
     });
-  } catch (error) {
+  } catch {
     responseHandler.error(res);
   }
 };
