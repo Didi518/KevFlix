@@ -33,7 +33,7 @@ const SignupForm = ({ switchAuthState }) => {
         .required('Le pseudonyme est requis'),
       confirmPassword: Yup.string()
         .oneOf(
-          [Yup.ref('newPassword')],
+          [Yup.ref('confirmPassword')],
           'La confirmation du nouveau mot de passe ne correspond pas'
         )
         .min(
