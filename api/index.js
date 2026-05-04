@@ -1,7 +1,6 @@
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import http from 'http';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import routes from './src/routes/index.js';
@@ -14,26 +13,33 @@ app.use(
     credentials: true,
   }),
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/v1', routes);
 
-const port = process.env.PORT || 8000;
+let cached = global.mongoose;
 
-const server = http.createServer(app);
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
-mongoose
-  .set('strictQuery', false)
-  .connect(process.env.MONGODB_URL)
-  .then(() => {
-    console.log('MongoDB connecté');
-    server.listen(port, () => {
-      console.log(`Serveur connecté au port: ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.log({ err });
-    process.exit(1);
-  });
+async function connectDB() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGODB_URL);
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+export default app;
