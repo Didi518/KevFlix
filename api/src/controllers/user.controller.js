@@ -37,7 +37,7 @@ const signin = async (req, res) => {
     if (!user)
       return responseHandler.badrequest(res, 'Utilisateur introuvable');
     if (!user.validPassword(password))
-      return responseHandler.badRequest(res, 'Mot de passe incorrect');
+      return responseHandler.badrequest(res, 'Mot de passe incorrect');
     const token = jsonwebtoken.sign(
       { data: user.id },
       process.env.TOKEN_SECRET,
